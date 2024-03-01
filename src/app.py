@@ -1,7 +1,7 @@
 import os
 
-from flask import Flask
-
+from flask import Flask, request
+import src.functions as f
 
 def create_app(test_config=None):
     # create and configure the app
@@ -27,5 +27,24 @@ def create_app(test_config=None):
     @app.route('/')
     def hello():
         return 'Hello, World!'
+    
+    @app.route('/count-words')
+    def count_words_in_sentence():
+        sentence = request.args.get("sentence")
+        if sentence is None:
+            return "0"
+        broj = len(sentence.split())
+        return str(broj)
 
+    @app.route('/factorize')
+    def test_factorize_number():
+        number = request.args.get("number")
+        message = request.args.get("message")
+        n = int(number)
+        if number is None:
+            return message
+        return f.factorize(n)
+    
+    @app.route('/number-of-digits')
+        
     return app
